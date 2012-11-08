@@ -3,6 +3,7 @@ library(igraph)
 #load the edges with time stamp
 edges <- read.table("edges.csv",header=T)
 
+#generate the full graph
 g <- graph.edgelist(as.matrix(edges[,c(1,2)]),directed=F)
 E(g)$time <- edges[,3]
 
@@ -14,16 +15,16 @@ vcolor <- rev(YlOrBr.Lab(vcount(g)))
 
 #time in the edges goes from 1 to 300. We kick off at time 3
 ti <- 3
-#weights of edges formed up to time ti is 1. Future edges are weighted 0 
+#weights of edges formed up to time ti is 1. Future edges are weighted 0
 E(g)$weight <- ifelse(E(g)$time < ti,1,0)
 #generate first layout using weights.
 lo <- layout.fruchterman.reingold(g,params=list(weights=E(g)$weight))
 
-#This is the time interval for the animation. In this case is taken to be 1/10 of the time (i.e. 10 snapshots) between adding two consecutive nodes 
+#This is the time interval for the animation. In this case is taken to be 1/10 
+#of the time (i.e. 10 snapshots) between adding two consecutive nodes 
 dt <- 0.1
 #Output for each frame will be a png with HD size 1600x900 :)
 png(file="animacion/example%03d.png", width=1600,height=900)
-
 #Time loop starts
 for(ti in seq(4,npasos,dt)){
   #define weight for edges present up to time ti.
