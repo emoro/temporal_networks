@@ -1,6 +1,7 @@
 library(igraph)
 
 #load the edges with time stamp
+#there are three columns in edges: id1,id2,time
 edges <- read.table("edges.csv",header=T)
 
 #generate the full graph
@@ -18,13 +19,17 @@ ti <- 3
 #weights of edges formed up to time ti is 1. Future edges are weighted 0
 E(g)$weight <- ifelse(E(g)$time < ti,1,0)
 #generate first layout using weights.
-lo <- layout.fruchterman.reingold(g,params=list(weights=E(g)$weight))
+layout.old <- layout.fruchterman.reingold(g,params=list(weights=E(g)$weight))
 
 #This is the time interval for the animation. In this case is taken to be 1/10 
 #of the time (i.e. 10 snapshots) between adding two consecutive nodes 
 dt <- 0.1
 #Output for each frame will be a png with HD size 1600x900 :)
+<<<<<<< HEAD
 png(file="animacion/example%03d.png", width=1600,height=900)
+=======
+png(file="example%03d.png", width=1600,height=900)
+>>>>>>> Version 0.3
 #Time loop starts
 for(ti in seq(4,npasos,dt)){
   #define weight for edges present up to time ti.
@@ -34,10 +39,10 @@ for(ti in seq(4,npasos,dt)){
   #Nodes with at least a non-zero weighted edge are in color. The rest are transparent
   V(g)$color <- ifelse(graph.strength(g)==0,rgb(0,0,0,0),vcolor)
   #given the new weights, we update the layout a little bit
-  lo1 <- layout.fruchterman.reingold(g,params=list(niter=10,start=lo,weights=E(g)$weight,maxdelta=1))
+  layout.new <- layout.fruchterman.reingold(g,params=list(niter=10,start=layout.old,weights=E(g)$weight,maxdelta=1))
   #plot the new graph
-  plot(g,layout=lo1,vertex.label="",vertex.size=1+2*log(graph.strength(g)),vertex.frame.color=V(g)$color,edge.width=1.5,asp=9/16,margin=-0.15)
+  plot(g,layout=layout.new,vertex.label="",vertex.size=1+2*log(graph.strength(g)),vertex.frame.color=V(g)$color,edge.width=1.5,asp=9/16,margin=-0.15)
   #use the new layout in the next round
-  lo <- lo1 
+  layout.old <- layout.new 
 }
 dev.off()
