@@ -25,11 +25,8 @@ layout.old <- layout.fruchterman.reingold(g,params=list(weights=E(g)$weight))
 #of the time (i.e. 10 snapshots) between adding two consecutive nodes 
 dt <- 0.1
 #Output for each frame will be a png with HD size 1600x900 :)
-<<<<<<< HEAD
-png(file="animacion/example%03d.png", width=1600,height=900)
-=======
 png(file="example%03d.png", width=1600,height=900)
->>>>>>> Version 0.3
+
 #Time loop starts
 for(ti in seq(4,npasos,dt)){
   #define weight for edges present up to time ti.
