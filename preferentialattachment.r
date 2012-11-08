@@ -9,6 +9,7 @@ E(g)$time <- edges[,3]
 #generate a cool palette for the graph
 YlOrBr <- c("#FFFFD4", "#FED98E", "#FE9929", "#D95F0E", "#993404")
 YlOrBr.Lab <- colorRampPalette(YlOrBr, space = "Lab")
+#colors for the nodes are chosen from the very beginning
 vcolor <- rev(YlOrBr.Lab(vcount(g)))
 
 #time in the edges goes from 1 to 300. We kick off at time 3
@@ -18,7 +19,7 @@ E(g)$weight <- ifelse(E(g)$time < ti,1,0)
 #generate first layout using weights.
 lo <- layout.fruchterman.reingold(g,params=list(weights=E(g)$weight))
 
-#This is the time interval for the animation. In this case is take to be 1/10 of the time between adding two consecutive nodes. 
+#This is the time interval for the animation. In this case is taken to be 1/10 of the time (i.e. 10 snapshots) between adding two consecutive nodes 
 dt <- 0.1
 #Output for each frame will be a png with HD size 1600x900 :)
 png(file="animacion/example%03d.png", width=1600,height=900)
