@@ -21,14 +21,17 @@ E(g)$weight <- ifelse(E(g)$time < ti,1,0)
 #generate first layout using weights.
 layout.old <- layout.fruchterman.reingold(g,params=list(weights=E(g)$weight))
 
+
+#total time of the dynamics
+total_time <- max(E(g)$time)
 #This is the time interval for the animation. In this case is taken to be 1/10 
 #of the time (i.e. 10 snapshots) between adding two consecutive nodes 
 dt <- 0.1
 #Output for each frame will be a png with HD size 1600x900 :)
 png(file="example%03d.png", width=1600,height=900)
-
+nsteps <- max(E(g)$time)
 #Time loop starts
-for(ti in seq(4,npasos,dt)){
+for(ti in seq(3,total_time,dt)){
   #define weight for edges present up to time ti.
   E(g)$weight <- ifelse(E(g)$time < ti,1,0) 
   #Edges with non-zero weight are in gray. The rest are transparent
